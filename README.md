@@ -24,6 +24,8 @@ systemctl list-unit-files | grep mysql
 
 ```
 
+<img width="1091" height="254" alt="스크린샷 2025-09-08 160451" src="https://github.com/user-attachments/assets/8e09ed1a-9df4-4867-9ebf-2d52dbafa238" />
+
 ---
 
 ## 2️⃣ EMP & DEPT 테이블 생성 및 데이터 저장
@@ -83,6 +85,10 @@ SELECT * FROM EMP;
 
 ```
 
+<img width="994" height="641" alt="스크린샷 2025-09-09 084508" src="https://github.com/user-attachments/assets/45be1313-2a56-427f-8123-b570bec1cee7" />
+
+
+
 ---
 
 ## 3️⃣ 자동화 (mysqldump + tar + cron)
@@ -91,7 +97,7 @@ SELECT * FROM EMP;
 
 ```bash
 # company → sqld로 맞추어 실행
-mysqldump -u root -pYOURPASSWORD sqld > /root/db_$(date +%Y%m%d_%H%M%S).sql
+mysqldump -u root -pubuntu sqld > /root/db_$(date +%Y%m%d_%H%M%S).sql
 
 ```
 
@@ -99,7 +105,7 @@ mysqldump -u root -pYOURPASSWORD sqld > /root/db_$(date +%Y%m%d_%H%M%S).sql
 
 ### (2) 백업 스크립트 작성
 
-📄 `/root/script/mysql-dump.sh`
+📄 `/root/script/mysql-backup.sh`
 
 ```bash
 #!/bin/bash
@@ -135,9 +141,12 @@ echo "backup_success: $TAR_FILE"
 권한 부여:
 
 ```bash
-chmod +x /root/script/mysql-dump.sh
+chmod +x /root/script/mysql-backup.sh
 
 ```
+
+<img width="1104" height="211" alt="스크린샷 2025-09-08 172052" src="https://github.com/user-attachments/assets/963f3c73-3465-42cc-8283-9ad15e6e8bf9" />
+
 
 ---
 
@@ -151,11 +160,10 @@ crontab -e
 - 매시 1분에 실행되도록 설정:
 
 ```
-1 * * * * /root/script/mysql-dump.sh >> /root/script/backup.log 2>&1
+1 * * * * /root/script/mysql-backup.sh >> /root/script/backup.log 2>&1
 
 ```
 
 📌 `>> /root/script/backup.log 2>&1`
 
-- **표준 출력**(`stdout`)과 **표준 에러**(`stderr`)를 로그 파일에 저장
-- 실패/성공 여부 확인 가능
+<img width="973" height="175" alt="스크린샷 2025-09-09 090724" src="https://github.com/user-attachments/assets/2a3d8475-1af4-41cf-9173-75bc5ef72945" />
